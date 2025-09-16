@@ -12,8 +12,6 @@
 #include <algorithm>
 #include "Dictionary.h"
 
-using namespace std;
-using namespace std::string_literals;
 
 /** A simple string to print the HTML header. */
 const std::string HTML_HEADER =
@@ -48,6 +46,10 @@ void updateWordCounts(const Dictionary& dict, const std::string& line,
     std::istringstream wordin(line);
     // Now you can use "wordin" stream the same way as std::cin
     // Process each word and update counters.
+
+    while (true) {
+
+    }
 
     // Use dict.toEngWord and dict.isEnglishWord appropriately.
 }
@@ -85,6 +87,15 @@ void processFile(std::istream& input, const Dictionary& dictionary) {
     //    wordCount[1]: Assume/use as total valid English words
     // Pass wordCount to the 2 helper methods in this file.
     int wordCount[2] = {0, 0}; 
+
+    size_t words, englishWords;
+    std::string line, prevLine, firstLine, lastLine;
+    std::string word;
+
+    while (std::getline(input, line)) {
+        updateWordCounts(dictionary, line, wordCount);
+    }
+    
 
     // Implement rest of this method to do the necessary processing.
 }
