@@ -1,0 +1,27 @@
+HTTP/1.1 301 Moved Permanently
+Date: Fri, 24 Jan 2025 17:51:22 GMT
+Server: Apache
+Location: https://www.miamioh.edu/
+Content-Length: 232
+Connection: close
+Content-Type: text/html; charset=iso-8859-1
+
+This is the first   line of first paragraph
+This is the second  line of first paragraph
+This is the third   line of first paragraph
+This is the last    line of first paragraph
+
+
+
+Second para line 1
+Second para line 2
+
+A one line third paragraph
+
+This paragraph is going to have 5 lines. Line 1 of 5
+This paragraph is going to have 5 lines. Line 2 of 5
+This paragraph is going to have 5 lines. Line 3 of 5
+This paragraph is going to have 5 lines. Line 4 of 5
+This paragraph is going to have 5 lines. Line 5 of 5
+
+This is the last, 1 line paragraph in this file.

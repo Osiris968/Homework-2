@@ -1,0 +1,90 @@
+/* 
+ * File:   homework2.cpp
+ *
+ * Copyright (C) Michael Kestner kestnemr@miamioh.edu
+ * 
+ */
+
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <cctype>
+#include <algorithm>
+#include "Dictionary.h"
+
+using namespace std;
+using namespace std::string_literals;
+
+/** A simple string to print the HTML header. */
+const std::string HTML_HEADER =
+        "<html>\n"
+        "  <body>\n"
+        "    <table border=\"1\">\n"
+        "      <tr><td>First and last line</td><td>Word counts</td></tr>\n";
+
+/** A simple string to finish the HTML. */
+const std::string HTML_TRAILER =
+        "    </table>\n"
+        "  </body>\n"
+        "</html>\n";
+
+/**
+ * Convenience method to count number words and number of valid English
+ * words in a given line.
+ *
+ * @param dict The dictionary to be used to clean-up words and check for
+ * valid English words.
+ * 
+ * @param line The line whose words are to be counted by this method.
+ *
+ * @param wordCounts The current set of counters to be updated by this
+ *     method.  This array should have 2 entries, first one being number
+ *     of words and the second number is number of valid English words.
+ * 
+ */
+void updateWordCounts(const Dictionary& dict, const std::string& line, 
+        int wordCounts[]) {
+    // Create a istringstream to read words from the given line.
+    std::istringstream wordin(line);
+    // Now you can use "wordin" stream the same way as std::cin
+    // Process each word and update counters.
+
+    // Use dict.toEngWord and dict.isEnglishWord appropriately.
+}
+
+/** 
+ * Helper method to print summary information about a paragraph in HTML
+ * format. 
+ * 
+ * @param firstLine The first line of the paragraph to be printed.
+ * @param lastLine The last line of the paragraph to be printed.
+ * @param wordCount An array with count of words and count of valid
+ *     English words.
+ */
+void printInfo(const std::string& firstLine, const std::string& lastLine,
+        int wordCount[]) {
+    // Print the HTML out in the necessary format
+
+    // Reset the word counts
+    wordCount[0] = wordCount[1] = 0;
+}
+
+/**
+ * The top-level method (to be implemented by student) to perform
+ * the necessary operation to: 1. count words, 2. count valid English
+ * words, and 3. print required output in HTML format. This method
+ * is called from main.
+ * 
+ * \param[in] input The input stream (similar to std::cin) from where
+ * lines are to be read (using std::getline) and processed line-by-line.
+ * 
+ */
+void processFile(std::istream& input, const Dictionary& dictionary) {
+    // Track word counts:
+    //    wordCount[0]: Assume/use as total number of words
+    //    wordCount[1]: Assume/use as total valid English words
+    // Pass wordCount to the 2 helper methods in this file.
+    int wordCount[2] = {0, 0}; 
+
+    // Implement rest of this method to do the necessary processing.
+}
