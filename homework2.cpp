@@ -10,6 +10,7 @@
 #include <sstream>
 #include <cctype>
 #include <algorithm>
+#include <format>
 #include "Dictionary.h"
 
 
@@ -47,8 +48,14 @@ void updateWordCounts(const Dictionary& dict, const std::string& line,
     // Now you can use "wordin" stream the same way as std::cin
     // Process each word and update counters.
 
+    std::string word;
     while (true) {
-
+        wordin >> word;
+        word = dict.toEngWord(word);
+        if (dict.isEnglishWord(word)) {
+            wordCounts[1]++;
+        }
+        wordCounts[0]++;
     }
 
     // Use dict.toEngWord and dict.isEnglishWord appropriately.
@@ -66,7 +73,16 @@ void updateWordCounts(const Dictionary& dict, const std::string& line,
 void printInfo(const std::string& firstLine, const std::string& lastLine,
         int wordCount[]) {
     // Print the HTML out in the necessary format
+    std::cout << HTML_HEADER << std::endl;
 
+    std::string printLine = ("      <tr><td>" + firstLine 
+                            + "<br>" + lastLine + "</td><td>Words: " 
+                            + std::to_string(wordCount[0]) 
+                            + "<br>English words: " 
+                            + std::to_string(wordCount[1]) 
+                            + "</td><tr>");
+
+    std::cout << printLine << std::endl;
     // Reset the word counts
     wordCount[0] = wordCount[1] = 0;
 }
@@ -89,13 +105,37 @@ void processFile(std::istream& input, const Dictionary& dictionary) {
     int wordCount[2] = {0, 0}; 
 
     size_t words, englishWords;
-    std::string line, prevLine, firstLine, lastLine;
+    std::string line = "", prevLine = "", firstLine = "", lastLine = "";
     std::string word;
 
     while (std::getline(input, line)) {
         updateWordCounts(dictionary, line, wordCount);
+        // Indicates first line of paragraph.
+        if (!line.empty() && firstLine.empty()) {
+            firstLine = line;
+        }
+        // Indicates last line of paragraph.
+        if (line.empty() && !firstLine.empty() && lastLine.empty()) {
+            lastLine = prevLine;
+
+            // Duplicate lines indicate a one-line paragraph.
+            if (lastLine == firstLine) {
+                lastLine = "";
+            }
+
+            printInfo(firstLine, lastLine, wordCount);
+            firstLine = lastLine = "";
+        }
+        prevLine = line;
     }
-    
+
+    // If while loop skips the last paragraph, (it does in java) uncomment the following:
+    // if (!prevLine.empty()) {
+    //     if (prevLine == firstLine) {
+    //         prevLine = "";
+    //     }
+    //     printInfo(firstLine, prevLine, wordCount);
+    // }
 
     // Implement rest of this method to do the necessary processing.
 }
