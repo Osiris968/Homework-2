@@ -49,8 +49,7 @@ void updateWordCounts(const Dictionary& dict, const std::string& line,
     // Process each word and update counters.
 
     std::string word;
-    while (true) {
-        wordin >> word;
+    while (wordin >> word) {
         word = dict.toEngWord(word);
         if (dict.isEnglishWord(word)) {
             wordCounts[1]++;
@@ -75,6 +74,13 @@ void printInfo(const std::string& firstLine, const std::string& lastLine,
     // Print the HTML out in the necessary format
     std::cout << HTML_HEADER << std::endl;
 
+    // BAD GET RID OF
+    if (firstLine[0] == 'HTTP/2' || firstLine[0] == 'HTTP/1.1') {
+        std::cout << "test first paragraph catch" << std::endl;
+        wordCount[0] = wordCount[1] = 0;
+        return;
+    }
+
     std::string printLine = ("      <tr><td>" + firstLine 
                             + "<br>" + lastLine + "</td><td>Words: " 
                             + std::to_string(wordCount[0]) 
@@ -83,6 +89,9 @@ void printInfo(const std::string& firstLine, const std::string& lastLine,
                             + "</td><tr>");
 
     std::cout << printLine << std::endl;
+
+    std::cout << HTML_TRAILER << std::endl;
+
     // Reset the word counts
     wordCount[0] = wordCount[1] = 0;
 }
@@ -109,13 +118,16 @@ void processFile(std::istream& input, const Dictionary& dictionary) {
     std::string word;
 
     while (std::getline(input, line)) {
+        std::cout << "TEST process file" << std::endl;
         updateWordCounts(dictionary, line, wordCount);
         // Indicates first line of paragraph.
         if (!line.empty() && firstLine.empty()) {
+            std::cout << "test first line" << std::endl;
             firstLine = line;
         }
         // Indicates last line of paragraph.
         if (line.empty() && !firstLine.empty() && lastLine.empty()) {
+            std::cout << "test last line and print" << std::endl;
             lastLine = prevLine;
 
             // Duplicate lines indicate a one-line paragraph.
