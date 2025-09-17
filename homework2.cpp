@@ -72,25 +72,21 @@ void updateWordCounts(const Dictionary& dict, const std::string& line,
 void printInfo(const std::string& firstLine, const std::string& lastLine,
         int wordCount[]) {
     // Print the HTML out in the necessary format
-    std::cout << HTML_HEADER << std::endl;
-
-    // BAD GET RID OF
-    if (firstLine[0] == 'HTTP/2' || firstLine[0] == 'HTTP/1.1') {
-        std::cout << "test first paragraph catch" << std::endl;
+    
+    if (firstLine.find("HTTP/2") != std::string::npos || 
+    firstLine.find("HTTP/1.1") != std::string::npos) {
         wordCount[0] = wordCount[1] = 0;
         return;
     }
-
+        
     std::string printLine = ("      <tr><td>" + firstLine 
                             + "<br>" + lastLine + "</td><td>Words: " 
                             + std::to_string(wordCount[0]) 
                             + "<br>English words: " 
                             + std::to_string(wordCount[1]) 
-                            + "</td><tr>");
+                            + "</td></tr>");
 
     std::cout << printLine << std::endl;
-
-    std::cout << HTML_TRAILER << std::endl;
 
     // Reset the word counts
     wordCount[0] = wordCount[1] = 0;
@@ -113,21 +109,17 @@ void processFile(std::istream& input, const Dictionary& dictionary) {
     // Pass wordCount to the 2 helper methods in this file.
     int wordCount[2] = {0, 0}; 
 
-    size_t words, englishWords;
     std::string line = "", prevLine = "", firstLine = "", lastLine = "";
     std::string word;
 
+    std::cout << HTML_HEADER;
+
     while (std::getline(input, line)) {
-        std::cout << "TEST process file" << std::endl;
         updateWordCounts(dictionary, line, wordCount);
         // Indicates first line of paragraph.
-        if (!line.empty() && firstLine.empty()) {
-            std::cout << "test first line" << std::endl;
-            firstLine = line;
-        }
+        if (!line.empty() && firstLine.empty()) { firstLine = line; }
         // Indicates last line of paragraph.
         if (line.empty() && !firstLine.empty() && lastLine.empty()) {
-            std::cout << "test last line and print" << std::endl;
             lastLine = prevLine;
 
             // Duplicate lines indicate a one-line paragraph.
@@ -140,14 +132,12 @@ void processFile(std::istream& input, const Dictionary& dictionary) {
         }
         prevLine = line;
     }
-
-    // If while loop skips the last paragraph, (it does in java) uncomment the following:
-    // if (!prevLine.empty()) {
-    //     if (prevLine == firstLine) {
-    //         prevLine = "";
-    //     }
-    //     printInfo(firstLine, prevLine, wordCount);
-    // }
-
-    // Implement rest of this method to do the necessary processing.
+    
+    // While loop skips last paragraph, here it is:
+    if (!prevLine.empty()) {
+        if (prevLine == firstLine) { prevLine = ""; }
+        printInfo(firstLine, prevLine, wordCount);
+    }
+    
+    std::cout << HTML_TRAILER;
 }
